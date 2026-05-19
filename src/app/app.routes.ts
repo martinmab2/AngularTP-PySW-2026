@@ -5,9 +5,9 @@ import { Puntodos } from './components/puntodos/puntodos';
 import { Puntotres } from './components/puntotres/puntotres';
 
 export const routes: Routes = [
-  { path: '', component: Home },
+  { path: 'home', component: Home },
   { path: 'puntouno', component: Puntouno },
   { path: 'puntodos', component: Puntodos },
   { path: 'puntotres', component: Puntotres },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'home' }
 ];
