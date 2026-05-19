@@ -1,0 +1,10 @@
+.puntodos-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.puntodos-container h2 {
+  color: #333;
+  font-weight: 700;
+}

@@ -1,0 +1,33 @@
+.card-fixed {
+  width: 100%;
+  max-width: 280px;
+  min-height: 480px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-fixed:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.img-fixed {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body > *:not(:last-child) {
+  flex-shrink: 0;
+}
+
+.btn {
+  margin-top: auto;
+}

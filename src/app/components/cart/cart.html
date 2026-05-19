@@ -1,0 +1,82 @@
+<div>
+  <!-- Botón del carrito en el navbar o sidebar -->
+  <button (click)="openCart()" class="btn btn-outline-primary position-relative">
+    <i class="bi bi-cart3"></i> Carrito
+    <span *ngIf="cartService.cartItems().length > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      {{ cartService.cartItems().reduce((sum, item) => sum + item.cantidad, 0) }}
+    </span>
+  </button>
+
+  <!-- Modal del carrito usando backdrop -->
+  <div *ngIf="showModal()" class="modal-backdrop fade show"></div>
+  <div *ngIf="showModal()" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Carrito de Compras</h5>
+          <button type="button" class="btn-close" (click)="closeCart()"></button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="cartService.cartItems().length === 0" class="alert alert-info text-center">
+            Tu carrito está vacío
+          </div>
+          <div *ngIf="cartService.cartItems().length > 0">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Producto</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of cartService.cartItems()">
+                  <td>{{ item.nombre }}</td>
+                  <td>${{ item.precio.toFixed(2) }}</td>
+                  <td>
+                    <input type="number" [(ngModel)]="item.cantidad" 
+                           (change)="updateQuantity(item.id, item.cantidad)"
+                           min="1" class="form-control form-control-sm" style="width: 80px;">
+                  </td>
+                  <td>${{ (item.precio * item.cantidad).toFixed(2) }}</td>
+                  <td>
+                    <button (click)="removeItem(item.id)" class="btn btn-sm btn-danger">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Resumen de precios -->
+            <div class="card mt-3">
+              <div class="card-body">
+                <div class="row mb-2">
+                  <div class="col-md-8 text-end"><strong>Subtotal:</strong></div>
+                  <div class="col-md-4"><strong>${{ cartService.getSubtotal().toFixed(2) }}</strong></div>
+                </div>
+                <div *ngIf="cartService.getDiscount() > 0" class="row mb-2 text-success">
+                  <div class="col-md-8 text-end"><strong>Descuento (20-35%):</strong></div>
+                  <div class="col-md-4"><strong>-${{ cartService.getDiscount().toFixed(2) }}</strong></div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-md-8 text-end"><h5>Total:</h5></div>
+                  <div class="col-md-4"><h5 class="text-primary">${{ cartService.getTotal().toFixed(2) }}</h5></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeCart()">Cerrar</button>
+          <button *ngIf="cartService.cartItems().length > 0" (click)="checkout()" type="button" class="btn btn-success">
+            <i class="bi bi-check-circle"></i> Comprar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
